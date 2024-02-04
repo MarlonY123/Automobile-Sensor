@@ -1,0 +1,93 @@
+﻿ORG 100
+//Marlon Yahir Martínez Chacón
+//Inicio del loop (1 al 20) para introducir los 20 datos
+Start,Input 
+StoreI direccion //se piden valores y se almacenan en la direccion
+
+//Sumar los valores que se ingresan
+Load sumaValores //Se carga la sumaValores en el AC
+AddI direccion //Se le suma el valor de la direccion a la que apunta la etiqueta direccion
+Store sumaValores //Se guarda la suma en sumaValores 
+
+Load direccion //se carga al AC el valor de la direccion 
+Add unoHex // se le suma uno a la dirección en donde se guarda para moverla un lugar 
+Store direccion //Se guarda el nuevo valor de la direccion
+
+//i++
+Load i //se carga el valor que sirve como contador
+Add uno //Se le suma uno para que no sea infinito
+Store i //se guarda el nuevo valor del contador para avanzar en los valores
+
+//Condicion i<=20
+subt veinte //se le resta 20 al nuevo valor del contador
+Skipcond 800//se comprueba si la resta es mayor que 0 para conocer si i>20
+Jump Start //Si i es menor o igual que 20 entonces regresa al inicio del loop
+Jump DivisionPromedio //Si i es mayor que 20 terminar el programa
+
+//Empieza el loop para la division
+DivisionPromedio,Load sumaValores //Carga el valor que almacenara la suma de los valores
+Subt veinte//Se le resta 20 a la sumaValores para saber si cabe 20 en la suma
+Store sumaValores //Guarda el resultado de la resta en la misma sumaValores
+Skipcond 000 //Checa si el número 20 (siendo el resultado menor que 0)
+//no cabe en la sumaValores 
+Jump SumarUno //Si es mayor o igual que 0 entonces salta para sumarle uno al cociente
+Jump Resultado //Si es menor que 0 entonces se llegó al resultado de la división
+
+//Se obtiene el cociente (media estadistica) sumándole uno a su valor
+SumarUno, Load mediaEstadistica //Carga el valor de la media estadística en el AC
+Add uno //Se le suma el valor de uno a la media estadística
+Store mediaEstadistica //Se guarda el nuevo valor de la media estadística
+Jump DivisionPromedio //Salta de vuelta al loop de la division
+
+//Una vez que se completa la división despliega el resultado
+Resultado, Load mediaEstadistica //Carga la mediaEstadística en el AC y lo despliega
+Output
+//Obtener si la temperatura es mayor que 37 o menor
+Subt treintasiete //le resta 37 a la mediaEstadistica
+Skipcond 800 //Comprueba si el valor de la resta es mayor que 0 (mayor que 37)
+Jump mostrarPaloma//Si es menor que 0 entonces salta hacia desplegar la palomita verde
+Jump mostrarTache//Si es mayor que 0 entonces salta para desplegar una tache
+
+//Despliega un simbolo con respecto a la temperatura del usuario
+//EL simbolo representa que la temperatura del usuario es normal (menor a 38)
+mostrarPaloma,Load normal // Carga el simbolo de la palomita y lo despliega
+Output
+Jump AsignarValor//Salta hacia donde se les asigna el valor de 0 a los valores utilizados
+
+//EL simbolo representa que la temperatura del usuario es alta (mayor a 37)
+mostrarTache, Load alta // Carga el simbolo de la tache y lo despliega
+Output
+Jump AsignarValor//Salta hacia donde se les asigna el valor de 0 a los valores utilizados
+
+//Les asigna el valor con el que se les inicializó a todos los espacios variables
+//para que los siguientes 20 valores puedan sobreescribir ese espacio
+AsignarValor, Load uno //Se carga el valor de uno (1) que sirve como constante
+Store i //Se le asigna el valor de 1 al contador
+Load cero //Se carga el valor de cero (0) que sirve como constante
+Store sumaValores //Se le asigna el valor de 0 a la sumaValores
+Store mediaEstadistica //Se le asigna el valor de 0 a la mediaEstadistica
+Load cientoCincuenta //Se carga el valor de cientoCiencuenta (150) que sirve como constante
+Store direccion //Se le asigna el valor de 150 hex a la direccion
+//Una vez que se vuelven a establecer los valores como fueron inicializados
+//Salta hacia el inicio del loop para tomar los otros 20 valores que nos dará el sensor
+Jump Start //Salta hacia el inicio del loop
+
+
+//VARIABLES
+i, dec 1 //Se inicializa i (contador) en 1
+direccion, hex 150 //Se inicializa la direccion a donde se va a mandar el primer dato
+sumaValores, dec 0 // Se inicializa el espacio que almacenara la suma de los valores en 0
+mediaEstadistica, dec 0 //Se inicializa la media estadistica en 0
+
+//CONSTANTES
+unoHex, hex 001 //Se inicializa el valor que modificara la direccion
+//para que al final del loop se mueva un lugar
+uno, dec 1 //Se inicializa el valor que se va a sumar al final del loop (constante)
+veinte, dec 20 //Se inicializa el valor que es el número máximo de entradas
+normal, hex 2705 //Se inicializa el valor de normal con el simbolo de palomita verde
+alta, hex 274C //Se incializa el valor de alta con el simbolo de una tache roja
+treintasiete, dec 37 //Se incializa el valor de treintasiete con 37
+cero, dec 0 //Se incializa el valor de cero con 0
+cientoCincuenta, hex 150 //Se incializa el valor cientoCincuenta con 150 hex
+
+
